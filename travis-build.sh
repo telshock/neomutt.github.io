@@ -76,7 +76,7 @@ fi
 # exit successfully if any file was edited, which html-proofer can't check
 if [[ $(git diff-tree --no-commit-id --name-only -r HEAD |
                grep --color=never -E \
-                    -e '.*\.gitignore'
+                    -e '.*\.gitignore' \
                     -e '*\.yml'
         ) > "" ]]
 then
