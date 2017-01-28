@@ -1,15 +1,15 @@
 dist: trusty
-language: ruby
+#language: ruby
 
-rvm:
-  - 2.4
+#rvm:
+#  - 2.4
 
 install:
-  - gem install jekyll
-  - gem install jekyll-paginate
-  - gem install html-proofer
-  - gem install jekyll-gist
-  - gem install jekyll-sitemap
+#  - gem install jekyll
+#  - gem install jekyll-paginate
+#  - gem install html-proofer
+#  - gem install jekyll-gist
+#  - gem install jekyll-sitemap
   - git clone https://github.com/neomutt/neomutt.github.io
 
 branches:
