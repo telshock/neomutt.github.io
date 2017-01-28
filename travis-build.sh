@@ -29,6 +29,15 @@ function success(){
     exit 0
 }
 
+function install_apt(){
+    apt-get update -y
+    apt-get install -y "$@"
+}
+
+function install_gem(){
+    gem install "$@"
+}
+
 # ---------------------------------[ Checks ]------------------------------------
 
 # fail the build if file in the guide/ folder has changed,
@@ -88,6 +97,12 @@ md_files=$(git diff-tree --no-commit-id --name-only -r HEAD |
 
 if [[  "$md_files" > "" ]]
 then
+    install_apt "pandoc"
+
+    # jekyll is not needed, as we're only testing markdown files
+    install_gem "html-proofer"
+
+
     echo "$md_files" | xargs "pandoc --from=markdown_github --write=html"
 
     # replaces markdown extensions with html and unrs html-proofer on it.
