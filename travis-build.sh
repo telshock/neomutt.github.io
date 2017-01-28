@@ -33,3 +33,16 @@ EOF
     fail "$variable"
 
 fi
+
+
+if [[ $(git diff-tree --no-commit-id --name-only -r HEAD |
+               grep --color=never -E '.*_man.*' ) > "" ]]
+then
+    variable=$(cat <<EOF
+Every file in the _man/ directory is automatically generated from the manpages
+in https://github.com/neomutt/neomutt/tree/neomutt/doc/ - So please,
+do your changes there.
+EOF
+            )
+    fail "$variable"
+fi
