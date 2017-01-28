@@ -15,8 +15,6 @@ function fail(){
     echo -e "${red}Error: $1"
     echo -e "$color_end"
 
-    exit 1
-}
 
 function success(){
     local color_end=$'\033[0m'
@@ -25,8 +23,6 @@ function success(){
     echo -e "${green}Notice: $1"
     echo -e "$color_end"
     echo "$1"
-
-    exit 0
 }
 
 function install_apt(){
@@ -40,6 +36,8 @@ function install_gem(){
 
 # ---------------------------------[ Checks ]------------------------------------
 
+echo "Checking for changes in guide/ folder.."
+
 # fail the build if file in the guide/ folder has changed,
 # => is generated, needs to be changed in neomutt repository.
 if [[ $(git diff-tree --no-commit-id --name-only -r HEAD |
@@ -52,10 +50,16 @@ do your changes there.
 EOF
 )
     fail "$variable"
+    exit 1
 
+else
+    echo "no changes in guide/ folder detected."
 fi
 
 # -------------------------------------------------------------------------------
+
+
+echo "checking for changes in _man/ folder."
 
 # fail if manpages were edited.
 # => is generated, needs to be changed in neomutt repository.
@@ -69,6 +73,9 @@ do your changes there.
 EOF
 )
     fail "$variable"
+    exit 1
+else
+    echo "no changes in _man/ folder detected."
 fi
 
 # -------------------------------------------------------------------------------
