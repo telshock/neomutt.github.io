@@ -14,7 +14,7 @@ function fail(){
 
     echo -e "${red}Error: $1"
     echo -e "$color_end"
-
+}
 
 function success(){
     local color_end=$'\033[0m'
