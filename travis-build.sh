@@ -80,6 +80,9 @@ fi
 
 # -------------------------------------------------------------------------------
 
+echo "Checking if only files have been edited, which weren't web or markdown
+files"
+
 # exit successfully if only files were edited, which html-proofer can't check
 if [[ $(git diff-tree --no-commit-id --name-only -r HEAD |
                grep --invert-match --color=never -E \
@@ -92,10 +95,15 @@ Some files which html-proofer can't check were edited, exit successfully.
 EOF
 )
     success "$variable"
+else
+    echo "no changes in non-web or non-markdown files found"
 fi
 
 
 # -------------------------------------------------------------------------------
+
+
+echo "Check for changed markdown files"
 
 # run pandoc on every markdown file which was changed.
 md_files=$(git diff-tree --no-commit-id --name-only -r HEAD |
@@ -114,4 +122,10 @@ then
 
     # replaces markdown extensions with html and unrs html-proofer on it.
     html-proofer ${md_files%.(md|markdown)}.html
+    [[ ! $? -gt 0 ]] && "checking markdown files successful"
+else
+    echo "No changed markdown files have been found"
 fi
+
+echo "done."
+exit 0
