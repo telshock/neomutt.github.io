@@ -16,4 +16,4 @@ branches:
   only:
     - devel/fix-issue-19
 script:
-  - cd neomutt.github.io && sh ./travis-build.sh
+  - bash travis-build.sh
