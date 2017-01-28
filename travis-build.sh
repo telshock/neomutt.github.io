@@ -21,7 +21,7 @@ function fail(){
 
 # fail the build if file in the guide/ folder has changed,
 # => is generated, needs to be changed in neomutt repository.
-if [[ ! $(git diff-tree --no-commit-id --name-only -r HEAD |
+if [[ $(git diff-tree --no-commit-id --name-only -r HEAD |
                grep --color=never -E '.*guide.*' ) > "" ]]
 then
     variable=$(cat <<EOF
