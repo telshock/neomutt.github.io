@@ -67,15 +67,29 @@ fi
 # exit successfully if any file was edited, which html-proofer can't check
 if [[ $(git diff-tree --no-commit-id --name-only -r HEAD |
                grep --color=never -E \
-                    -e '.*\.md' \
-                    -e '.*\.markdown' \
+                    -e '.*\.gitignore'
                     -e '*\.yml'
         ) > "" ]]
 then
-
     variable=$(cat <<EOF
 Some files which html-proofer can't check were edited, exit successfully.
 EOF
 )
     success "$variable"
+fi
+
+
+# -------------------------------------------------------------------------------
+
+# run pandoc on every markdown file which was changed.
+md_files=$(git diff-tree --no-commit-id --name-only -r HEAD |
+         grep --color=never -E \
+              -e '.*\.markdown' -e '.*\.md')
+
+if [[  "$md_files" > "" ]]
+then
+    echo "$md_files" | xargs "pandoc --from=markdown_github --write=html"
+
+    # replaces markdown extensions with html and unrs html-proofer on it.
+    html-proofer ${md_files%.(md|markdown)}.html
 fi
