@@ -17,24 +17,21 @@ function fail(){
     local color_end=$'\033[0m'
     local red='\033[0;31m'
 
-    echo -e "${red}Error: $1"
-    echo -e "$color_end"
+    echo -e "${red}Error:$color_end $1"
 }
 
 function success(){
     local color_end=$'\033[0m'
     local green='\033[0;32m'
 
-    echo -e "${green}Notice: $1"
-    echo -e "$color_end"
+    echo -e "${green}Notice:$color_end $1"
 }
 
 function notice(){
     local color_end=$'\033[0m'
     local purple='\033[0;35m'
 
-    echo -e "${purple}Notice: $1"
-    echo -e "$color_end"
+    echo -e "${purple}Notice:$color_end $1"
 }
 
 function install_apt(){
