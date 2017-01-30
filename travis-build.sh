@@ -88,7 +88,7 @@ fi
 
 # -------------------------------------------------------------------------------
 
-echo "Checking if only files have been edited, which weren't web or markdown
+notice "Checking if only files have been edited, which weren't web or markdown
 files"
 
 # exit successfully if only files were edited, which html-proofer can't check
@@ -130,7 +130,14 @@ then
 
     # replaces markdown extensions with html and unrs html-proofer on it.
     html-proofer ${md_files%.(md|markdown)}.html
-    [[ ! $? -gt 0 ]] && success "checking markdown files successful"
+
+    if [[ ! $? -gt 0 ]]
+    then
+        success "checking markdown files successful"
+    else
+        fail "checking markdown files failed."
+    fi
+
 else
     notice "No changed markdown files have been found"
 fi
