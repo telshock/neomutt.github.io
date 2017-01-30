@@ -4,6 +4,11 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+
+# Source: http://wiki.bash-hackers.org/scripting/debuggingtips#use_shell_debug_output
+set -o xtrace
+export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+
 # runs on every commit pushed to github.
 # => just need to check one commit at a time.
 
