@@ -22,7 +22,14 @@ function success(){
 
     echo -e "${green}Notice: $1"
     echo -e "$color_end"
-    echo "$1"
+}
+
+function notice(){
+    local color_end=$'\033[0m'
+    local purple='\033[0;35m'
+
+    echo -e "${purple}Notice: $1"
+    echo -e "$color_end"
 }
 
 function install_apt(){
@@ -34,9 +41,10 @@ function install_gem(){
     gem install "$@"
 }
 
+
 # ---------------------------------[ Checks ]------------------------------------
 
-echo "Checking for changes in guide/ folder.."
+notice "Checking for changes in guide/ folder.."
 
 # fail the build if file in the guide/ folder has changed,
 # => is generated, needs to be changed in neomutt repository.
@@ -53,13 +61,13 @@ EOF
     exit 1
 
 else
-    echo "no changes in guide/ folder detected."
+    notice "no changes in guide/ folder detected."
 fi
 
 # -------------------------------------------------------------------------------
 
 
-echo "checking for changes in _man/ folder."
+notice "checking for changes in _man/ folder."
 
 # fail if manpages were edited.
 # => is generated, needs to be changed in neomutt repository.
@@ -75,7 +83,7 @@ EOF
     fail "$variable"
     exit 1
 else
-    echo "no changes in _man/ folder detected."
+    notice "no changes in _man/ folder detected."
 fi
 
 # -------------------------------------------------------------------------------
@@ -96,14 +104,14 @@ EOF
 )
     success "$variable"
 else
-    echo "no changes in non-web or non-markdown files found"
+    notice "no changes in non-web or non-markdown files found"
 fi
 
 
 # -------------------------------------------------------------------------------
 
 
-echo "Check for changed markdown files"
+notice "Check for changed markdown files"
 
 # run pandoc on every markdown file which was changed.
 md_files=$(git diff-tree --no-commit-id --name-only -r HEAD |
@@ -122,9 +130,9 @@ then
 
     # replaces markdown extensions with html and unrs html-proofer on it.
     html-proofer ${md_files%.(md|markdown)}.html
-    [[ ! $? -gt 0 ]] && "checking markdown files successful"
+    [[ ! $? -gt 0 ]] && success "checking markdown files successful"
 else
-    echo "No changed markdown files have been found"
+    notice "No changed markdown files have been found"
 fi
 
 echo "done."
