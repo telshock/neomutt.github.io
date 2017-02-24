@@ -4,6 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+EXIT_STATUS=0
 
 
 # runs on every commit pushed to github.
@@ -57,7 +58,7 @@ do your changes there.
 EOF
 )
     fail "$variable"
-    exit 1
+    EXIT_STATUS=1
 
 else
     notice "no changes in guide/ folder detected."
@@ -80,7 +81,7 @@ do your changes there.
 EOF
 )
     fail "$variable"
-    exit 1
+    EXIT_STATUS=1
 else
     notice "no changes in _man/ folder detected."
 fi
@@ -142,4 +143,4 @@ fi
 #fi
 
 echo "done."
-exit 0
+exit $EXIT_STATUS
