@@ -88,29 +88,29 @@ fi
 
 # -------------------------------------------------------------------------------
 
-notice "Checking if only files have been edited, which weren't web or markdown
-files"
-
-# exit successfully if only files were edited, which html-proofer can't check
-if [[ $(git diff-tree --no-commit-id --name-only -r HEAD |
-               grep --invert-match --color=never -E \
-                    -e '.*\.gitignore' \
-                    -e '*\.yml'
-        ) != "" ]]
-then
-    variable=$(cat <<EOF
-Some files which html-proofer can't check were edited, exit successfully.
-EOF
-)
-    success "$variable"
-else
-    notice "no changes in non-web or non-markdown files found"
-fi
-
+#====================[ not tested yet ]=================
+#notice "Checking if only files have been edited, which weren't web or markdown
+#files"
+#
+## exit successfully if only files were edited, which html-proofer can't check
+#if [[ $(git diff-tree --no-commit-id --name-only -r HEAD |
+#               grep --invert-match --color=never -E \
+#                    -e '.*\.gitignore' \
+#                    -e '*\.yml'
+#        ) != "" ]]
+#then
+#    variable=$(cat <<EOF
+#Some files which html-proofer can't check were edited, exit successfully.
+#EOF
+#)
+#    success "$variable"
+#else
+#    notice "no changes in non-web or non-markdown files found"
+#fi
+#
 
 # -------------------------------------------------------------------------------
 
-#====================[ not tested yet ]=================
 #notice "Check for changed markdown files"
 #
 ## run pandoc on every markdown file which was changed.
