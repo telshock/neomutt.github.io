@@ -1,10 +1,16 @@
 dist: trusty
-#language: ruby
+language: ruby
+
+# we can install packages without sudo, even use apt-get
+sudo: false
+
 
 #rvm:
 #  - 2.4
 
 install:
+  # rest of dependencies are installed via the build script when needed.
+  - apt-get update -y && apt-get -y install git
 #  - gem install jekyll
 #  - gem install jekyll-paginate
 #  - gem install html-proofer

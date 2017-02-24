@@ -5,9 +5,6 @@ set -o nounset
 set -o pipefail
 
 
-# Source: http://wiki.bash-hackers.org/scripting/debuggingtips#use_shell_debug_output
-set -o xtrace
-export PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 
 # runs on every commit pushed to github.
 # => just need to check one commit at a time.
@@ -35,7 +32,7 @@ function notice(){
 }
 
 function install_apt(){
-    apt-get update -y
+    # apt-get update is already run in .travis.yml
     apt-get install -y "$@"
 }
 
@@ -98,7 +95,7 @@ if [[ $(git diff-tree --no-commit-id --name-only -r HEAD |
                grep --invert-match --color=never -E \
                     -e '.*\.gitignore' \
                     -e '*\.yml'
-        ) < "" ]]
+        ) != "" ]]
 then
     variable=$(cat <<EOF
 Some files which html-proofer can't check were edited, exit successfully.
@@ -112,37 +109,37 @@ fi
 
 # -------------------------------------------------------------------------------
 
-
-notice "Check for changed markdown files"
-
-# run pandoc on every markdown file which was changed.
-md_files=$(git diff-tree --no-commit-id --name-only -r HEAD |
-         grep --color=never -E \
-              -e '.*\.markdown' -e '.*\.md')
-
-if [[  "$md_files" > "" ]]
-then
-    install_apt "pandoc"
-
-    # jekyll is not needed, as we're only testing markdown files
-    install_gem "html-proofer"
-
-
-    echo "$md_files" | xargs "pandoc --from=markdown_github --write=html"
-
-    # replaces markdown extensions with html and unrs html-proofer on it.
-    html-proofer ${md_files%.(md|markdown)}.html
-
-    if [[ ! $? -gt 0 ]]
-    then
-        success "checking markdown files successful"
-    else
-        fail "checking markdown files failed."
-    fi
-
-else
-    notice "No changed markdown files have been found"
-fi
+#====================[ not tested yet ]=================
+#notice "Check for changed markdown files"
+#
+## run pandoc on every markdown file which was changed.
+#md_files=$(git diff-tree --no-commit-id --name-only -r HEAD |
+#         grep --color=never -E \
+#              -e '.*\.markdown' -e '.*\.md')
+#
+#if [[  "$md_files" != "" ]]
+#then
+#    install_apt "pandoc"
+#
+#    # jekyll is not needed, as we're only testing markdown files
+#    install_gem "html-proofer"
+#
+#
+#    echo "$md_files" | xargs "pandoc --from=markdown_github --write=html"
+#
+#    # replaces markdown extensions with html and unrs html-proofer on it.
+#    html-proofer ${md_files%.(md|markdown)}.html
+#
+#    if [[ ! $? -gt 0 ]]
+#    then
+#        success "checking markdown files successful"
+#    else
+#        fail "checking markdown files failed."
+#    fi
+#
+#else
+#    notice "No changed markdown files have been found"
+#fi
 
 echo "done."
 exit 0
