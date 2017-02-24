@@ -33,7 +33,7 @@ function notice(){
 }
 
 function install_apt(){
-    # apt-get update is already run in .travis.yml
+    # don't need to run apt-get update -> docker updates automatically to the newest version of ubuntu
     apt-get install -y "$@"
 }
 
